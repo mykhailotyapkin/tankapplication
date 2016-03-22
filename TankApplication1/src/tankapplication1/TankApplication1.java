@@ -16,6 +16,7 @@ public class TankApplication1 {
      */
     public static void main(String[] args) {
         System.out.println("jhgfegh");
+        System.out.println("sdjhiuwad");
     }
     
 }
