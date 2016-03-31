@@ -5,6 +5,12 @@
  */
 package tankapplication1;
 
+import javax.swing.JFrame;
+
+
+enum Command{
+    ROTATION
+}
 /**
  *
  * @author Michael
@@ -15,8 +21,27 @@ public class TankApplication1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("jhgfegh");
-        System.out.println("sdjhiuwad");
+        
+        
+        Tank model = new Tank();
+        TankView view = new TankView();
+        TankController controller = new TankController();
+        
+        view.setModel(model);
+        controller.setModel(model);
+        view.setController(controller);
+        controller.setView(view);
+        
+        
+        JFrame frame = new JFrame();
+        frame.setVisible(true);
+        frame.setSize(1000,1000);
+        frame.setTitle("Tank Application");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addKeyListener(controller);
+        frame.add(view);
+        
+        
     }
     
 }
