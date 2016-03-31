@@ -5,10 +5,13 @@
  */
 package tankapplication1;
 
+import java.awt.MouseInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
@@ -17,7 +20,7 @@ import javax.swing.JPanel;
  *
  * @author Michael
  */
-public class TankController extends JPanel implements KeyListener ,ActionListener{
+public class TankController extends JPanel implements KeyListener ,ActionListener , MouseMotionListener{
     Tank model = null;
     TankView view = null;
     
@@ -28,9 +31,7 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-       
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
     
     public TankView getView() {
@@ -61,20 +62,16 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
     
     private void doRotateRigth() {
         if(isRotating()){
-            model.setAngle(model.getAngle()-0.5);
+            model.setAngle(model.getAngle()-0.03);
             view.repaint();
         }
-        
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     private void doRotateLeft() {
         if(isRotating()){
-            model.setAngle(model.getAngle()+0.5);
+            model.setAngle(model.getAngle()+0.03);
             view.repaint();
         }
-        
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
@@ -83,32 +80,39 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
     
     @Override
     public void keyTyped(KeyEvent e) {
-        if(e.getKeyChar() == 'a'){
+        
+    
+        /*if(e.getKeyChar() == 'a'){
             timer.cancel();
             timer = new Timer();
             setRotating(!isRotating());
             final TankController controller = this;
-        
-            TimerTask task = new TimerTask(){
+            controller.doRotateRigth();
+            /*TimerTask task = new TimerTask(){
             public void run(){
-                controller.doRotateLeft();
+               
             }
-        };
-        timer.scheduleAtFixedRate(task , 0 ,30);
+            };
+            //timer.scheduleAtFixedRate(task , 0 ,30);
         }else if(e.getKeyChar() == 'd'){
             timer.cancel();
             timer = new Timer();
             setRotating(!isRotating());
             final TankController controller = this;
-        
-            TimerTask task = new TimerTask(){
+            controller.doRotateLeft();
+            /*TimerTask task = new TimerTask(){
             public void run(){
-                controller.doRotateRigth();
+               
             }
-        };
-        timer.scheduleAtFixedRate(task , 0 ,30);
-        }
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            };
+            timer.scheduleAtFixedRate(task , 0 ,30);
+        }else if(e.getKeyChar() == 'w'){
+            final TankController controller = this;
+            controller.doForward();
+        }else if(e.getKeyChar() == 's'){
+            final TankController controller = this;
+            controller.doBackward(); 
+        }*/
     }
     
     public boolean isRotating() {
@@ -124,12 +128,60 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         
+       
+                if(e.getKeyChar() == 'a'){
+                    timer.cancel();
+                    timer = new Timer();
+                    setRotating(!isRotating());
+                    final TankController controller = this;
+                    controller.doRotateRigth();
+                }else if(e.getKeyChar() == 'd'){
+                    timer.cancel();
+                    timer = new Timer();
+                    setRotating(!isRotating());
+                    final TankController controller = this;
+                    controller.doRotateLeft();
+                }else if(e.getKeyChar() == 'w'){
+                    final TankController controller = this;
+                    controller.doForward();
+                }else if(e.getKeyChar() == 's'){
+                    final TankController controller = this;
+                    controller.doBackward(); 
+                }
+                
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+       
+        model.setTurretAngle(Math.atan2(MouseInfo.getPointerInfo().getLocation().x,
+            MouseInfo.getPointerInfo().getLocation().y) );
+        view.repaint();
+    }
+
+    private void doForward() {
+        model.setTankY(model.getTankY()-5);
+        model.setTurretX(model.getTankX()+(model.getTankWidth()/4));
+        model.setTurretY(model.getTankY()+(model.getTankHeight()/2));
+        view.repaint();
+    }
+
+    private void doBackward() {
+        model.setTankY(model.getTankY()+5);
+        model.setTurretX(model.getTankX()+(model.getTankWidth()/4));
+        model.setTurretY(model.getTankY()+(model.getTankHeight()/2));
+        view.repaint();
     }
 
     

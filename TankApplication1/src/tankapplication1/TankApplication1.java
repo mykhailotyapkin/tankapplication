@@ -39,6 +39,7 @@ public class TankApplication1 {
         frame.setTitle("Tank Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addKeyListener(controller);
+        frame.addMouseMotionListener(controller);
         frame.add(view);
         
         

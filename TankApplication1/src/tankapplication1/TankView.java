@@ -26,9 +26,14 @@ public class TankView extends JPanel {
         g2d.setColor(Color.white);
         g2d.fillRect(0, 0, 1000, 1000);
         g2d.setColor(Color.red);
-        //g2d.fillRect(model.getTankX(), model.getTankY(), model.getTankWidth(), model.getTankHeight());
-        g2d.rotate(model.getAngle() , model.getTankWidth() , model.getTankHeight());
+       
+        g2d.rotate(model.getAngle() , model.getTankWidth()*2 , model.getTankHeight()*2);
+        
         g2d.fillRect(model.getTankX(), model.getTankY(), model.getTankWidth(), model.getTankHeight());
+        g2d.rotate(model.getTurretAngle()*(-1) , model.getTurretX() , model.getTurretY());
+        g2d.setColor(Color.yellow);
+        g2d.fillRect(model.getTurretX(), model.getTurretY(), model.getTurretRadius(), model.getTurretRadius()+80);
+        
     }
     
     public Tank getModel() {
