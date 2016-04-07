@@ -27,12 +27,18 @@ public class TankView extends JPanel {
         g2d.fillRect(0, 0, 1000, 1000);
         g2d.setColor(Color.red);
        
-        g2d.rotate(model.getAngle() , model.getTankWidth()*2 , model.getTankHeight()*2);
-        
-        g2d.fillRect(model.getTankX(), model.getTankY(), model.getTankWidth(), model.getTankHeight());
-        g2d.rotate(model.getTurretAngle()*(-1) , model.getTurretX() , model.getTurretY());
+        //tank
+        g2d.rotate(Math.toRadians(model.getAngle()) , model.getTankX()+model.getTankWidth()/2 ,model.getTankY()+ model.getTankHeight()/2);
+        g2d.fillRect((int)model.getTankX(), (int)model.getTankY(), model.getTankWidth(), model.getTankHeight());
+        //circle
+        g2d.rotate(Math.toRadians(model.getTurretAngle()) ,model.getTankX()+(model.getTankWidth()/2) ,model.getTankY()+(model.getTankHeight()/2) );
+        g2d.setColor(Color.green);
+        g2d.fillOval((int)model.getTankX(), (int)model.getTankY(), 70, 70);
+        //turret
+        g2d.rotate(model.getTurretAngle()*(-1) ,  model.getTankX()+model.getTankWidth()/2 , model.getTankY()+ model.getTankHeight()/2);
         g2d.setColor(Color.yellow);
-        g2d.fillRect(model.getTurretX(), model.getTurretY(), model.getTurretRadius(), model.getTurretRadius()+80);
+        g2d.fillRect((int)model.getTurretX(), (int)model.getTurretY(), model.getTurretRadius(), model.getTurretRadius()+40);
+        
         
     }
     

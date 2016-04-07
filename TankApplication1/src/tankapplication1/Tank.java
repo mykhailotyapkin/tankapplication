@@ -7,33 +7,42 @@ package tankapplication1;
 
 import java.awt.MouseInfo;
 
+
+
+class outOfFuelException extends Exception{
+    
+}
 /**
  *
  * @author Michael
  */
 public class Tank {
     
-    private int tankX = 100;
-    private int tankY = 100;
+    private double tankX = 100;
+    private double tankY = 100;
     private int tankWidth = 80;
     private int tankHeight = 100;
     private double angle = 0;
     private boolean isRotating = false;
-    private int turretX = tankX+(tankWidth/4) ;
-    private int turretY = tankY + tankHeight/2;
+    private double turretX = tankX+(tankWidth/4) ;
+    private double turretY = tankY + tankHeight/2;
     private int turretRadius = 40;
     private double turretAngle =0 ;
+    private double rotationTankX = tankX + tankWidth/2;
+    private double rotationTankY = tankY + tankHeight/2;
+    private double fuel = 10;
+    private double k = 0.02;
     /**
      * @return the tankX
      */
-    public int getTankX() {
+    public double getTankX() {
         return tankX;
     }
 
     /**
      * @return the tankY
      */
-    public int getTankY() {
+    public double getTankY() {
         return tankY;
     }
 
@@ -82,14 +91,14 @@ public class Tank {
     /**
      * @return the turretX
      */
-    public int getTurretX() {
+    public double getTurretX() {
         return turretX;
     }
 
     /**
      * @return the turretY
      */
-    public int getTurretY() {
+    public double getTurretY() {
         return turretY;
     }
 
@@ -117,14 +126,14 @@ public class Tank {
     /**
      * @param tankX the tankX to set
      */
-    public void setTankX(int tankX) {
+    public void setTankX(double tankX) {
         this.tankX = tankX;
     }
 
     /**
      * @param tankY the tankY to set
      */
-    public void setTankY(int tankY) {
+    public void setTankY(double tankY) {
         this.tankY = tankY;
     }
 
@@ -152,14 +161,14 @@ public class Tank {
     /**
      * @param turretX the turretX to set
      */
-    public void setTurretX(int turretX) {
+    public void setTurretX(double turretX) {
         this.turretX = turretX;
     }
 
     /**
      * @param turretY the turretY to set
      */
-    public void setTurretY(int turretY) {
+    public void setTurretY(double turretY) {
         this.turretY = turretY;
     }
 
@@ -168,6 +177,62 @@ public class Tank {
      */
     public void setTurretRadius(int turretRadius) {
         this.turretRadius = turretRadius;
+    }
+
+    /**
+     * @return the rotationTankX
+     */
+    public double getRotationTankX() {
+        return rotationTankX;
+    }
+
+    /**
+     * @return the rotationTankY
+     */
+    public double getRotationTankY() {
+        return rotationTankY;
+    }
+
+    /**
+     * @param rotationTankX the rotationTankX to set
+     */
+    public void setRotationTankX(double rotationTankX) {
+        this.rotationTankX = rotationTankX;
+    }
+
+    /**
+     * @param rotationTankY the rotationTankY to set
+     */
+    public void setRotationTankY(double rotationTankY) {
+        this.rotationTankY = rotationTankY;
+    }
+
+    /**
+     * @return the fuel
+     */
+    public double getFuel() {
+        return fuel;
+    }
+
+    /**
+     * @param fuel the fuel to set
+     */
+    public void setFuel(double fuel) {
+        this.fuel = fuel;
+    }
+
+    /**
+     * @return the k
+     */
+    public double getK() {
+        return k;
+    }
+
+    /**
+     * @param k the k to set
+     */
+    public void setK(double k) {
+        this.k = k;
     }
     
     

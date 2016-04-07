@@ -60,16 +60,24 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
         
     }
     
-    private void doRotateRigth() {
+    private void doRotateRigth()  {
         if(isRotating()){
-            model.setAngle(model.getAngle()-0.03);
-            view.repaint();
+           
+                model.setAngle(model.getAngle()-8);
+                model.setFuel(model.getFuel() - model.getK());
+                System.out.println(Math.toRadians(model.getAngle()));
+                //System.out.println(model.getFuel());
+                view.repaint();
+                //throw new outOfFuelException();
+                
+            
         }
     }
     
     private void doRotateLeft() {
         if(isRotating()){
-            model.setAngle(model.getAngle()+0.03);
+            model.setAngle(model.getAngle()+8);
+            System.out.println(model.getAngle());
             view.repaint();
         }
     }
@@ -81,38 +89,6 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
     @Override
     public void keyTyped(KeyEvent e) {
         
-    
-        /*if(e.getKeyChar() == 'a'){
-            timer.cancel();
-            timer = new Timer();
-            setRotating(!isRotating());
-            final TankController controller = this;
-            controller.doRotateRigth();
-            /*TimerTask task = new TimerTask(){
-            public void run(){
-               
-            }
-            };
-            //timer.scheduleAtFixedRate(task , 0 ,30);
-        }else if(e.getKeyChar() == 'd'){
-            timer.cancel();
-            timer = new Timer();
-            setRotating(!isRotating());
-            final TankController controller = this;
-            controller.doRotateLeft();
-            /*TimerTask task = new TimerTask(){
-            public void run(){
-               
-            }
-            };
-            timer.scheduleAtFixedRate(task , 0 ,30);
-        }else if(e.getKeyChar() == 'w'){
-            final TankController controller = this;
-            controller.doForward();
-        }else if(e.getKeyChar() == 's'){
-            final TankController controller = this;
-            controller.doBackward(); 
-        }*/
     }
     
     public boolean isRotating() {
@@ -147,8 +123,41 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
                     controller.doForward();
                 }else if(e.getKeyChar() == 's'){
                     final TankController controller = this;
-                    controller.doBackward(); 
-                }
+                    //while(model.getFuel()>0){
+                        timer.cancel();
+                        timer = new Timer();
+                        controller.doBackward();
+                    //}
+                     
+                }/*else if ((e.getKeyChar() == 'w') && (e.getKeyChar() == 'a')){
+                    timer.cancel();
+                    timer = new Timer();
+                    setRotating(!isRotating());
+                    final TankController controller = this;
+                    controller.doRotateRigth();
+                    controller.doForward();
+                }else if ((e.getKeyChar() == 'w') && (e.getKeyChar() == 'd')){
+                    timer.cancel();
+                    timer = new Timer();
+                    setRotating(!isRotating());
+                    final TankController controller = this;
+                    controller.doRotateLeft();
+                    controller.doForward();
+                }else if ((e.getKeyChar() == 's') && (e.getKeyChar() == 'a')){
+                    timer.cancel();
+                    timer = new Timer();
+                    setRotating(!isRotating());
+                    final TankController controller = this;
+                    controller.doRotateRigth();
+                    controller.doBackward();
+                }else if ((e.getKeyChar() == 's') && (e.getKeyChar() == 'd')){
+                    timer.cancel();
+                    timer = new Timer();
+                    setRotating(!isRotating());
+                    final TankController controller = this;
+                    controller.doRotateLeft();
+                    controller.doBackward();
+                }*/
                 
     }
 
@@ -171,17 +180,39 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
     }
 
     private void doForward() {
-        model.setTankY(model.getTankY()-5);
-        model.setTurretX(model.getTankX()+(model.getTankWidth()/4));
-        model.setTurretY(model.getTankY()+(model.getTankHeight()/2));
-        view.repaint();
+       if(Math.toRadians(model.getAngle()) == 0){
+            model.setTankY((model.getTankY()) - 5);
+            model.setTurretX(model.getTankX()+(model.getTankWidth()/4));
+            model.setTurretY(model.getTankY()+(model.getTankHeight()/2));
+            view.repaint();
+       }else if(model.getAngle() < 0){
+            model.setTankX(model.getTankX() + ((model.getTankX() * Math.toRadians(model.getAngle())/10)));
+            model.setTankY(model.getTankY() + ((model.getTankX() * Math.toRadians(model.getAngle())/10)));
+            model.setTurretX(model.getTankX()+(model.getTankWidth()/4));
+            model.setTurretY(model.getTankY()+(model.getTankHeight()/2));
+            view.repaint();
+        }else if(model.getAngle() > 0){
+            model.setTankX(model.getTankX() + ((model.getTankX() * Math.toRadians(model.getAngle())/10)));
+            model.setTankY(model.getTankY() + ((model.getTankX() * Math.toRadians(model.getAngle())/10)));
+            model.setTurretX(model.getTankX()+(model.getTankWidth()/4));
+            model.setTurretY(model.getTankY()+(model.getTankHeight()/2));
+            view.repaint();
+        }
+        
     }
 
     private void doBackward() {
-        model.setTankY(model.getTankY()+5);
-        model.setTurretX(model.getTankX()+(model.getTankWidth()/4));
-        model.setTurretY(model.getTankY()+(model.getTankHeight()/2));
-        view.repaint();
+        
+            model.setTankX((model.getTankX()) + 5);
+            model.setTankY((model.getTankY()) + 5);
+            model.setTurretX(model.getTankX()+(model.getTankWidth()/4));
+            model.setTurretY(model.getTankY()+(model.getTankHeight()/2));
+            model.setFuel(model.getFuel() - 0.2);
+            System.out.println(model.getFuel());
+        
+            view.repaint();
+        
+        
     }
 
     
