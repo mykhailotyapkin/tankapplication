@@ -18,18 +18,19 @@ class outOfFuelException extends Exception{
  */
 public class Tank {
     
-    private double tankX = 100;
-    private double tankY = 100;
-    private int tankWidth = 80;
-    private int tankHeight = 100;
+    private double tankX = 500;
+    private double tankY = 250;
+    private double tankVY = 0 ;
+    private double tankVX = 0;
+    private int tankWidth = 42;
+    private int tankHeight = 88;
+    public static  int speed = 1;
     private double angle = 0;
     private boolean isRotating = false;
     private double turretX = tankX+(tankWidth/4) ;
     private double turretY = tankY + tankHeight/2;
     private int turretRadius = 40;
-    private double turretAngle =0 ;
-    private double rotationTankX = tankX + tankWidth/2;
-    private double rotationTankY = tankY + tankHeight/2;
+    private double turretAngle = 0;
     private double fuel = 10;
     private double k = 0.02;
     /**
@@ -180,34 +181,6 @@ public class Tank {
     }
 
     /**
-     * @return the rotationTankX
-     */
-    public double getRotationTankX() {
-        return rotationTankX;
-    }
-
-    /**
-     * @return the rotationTankY
-     */
-    public double getRotationTankY() {
-        return rotationTankY;
-    }
-
-    /**
-     * @param rotationTankX the rotationTankX to set
-     */
-    public void setRotationTankX(double rotationTankX) {
-        this.rotationTankX = rotationTankX;
-    }
-
-    /**
-     * @param rotationTankY the rotationTankY to set
-     */
-    public void setRotationTankY(double rotationTankY) {
-        this.rotationTankY = rotationTankY;
-    }
-
-    /**
      * @return the fuel
      */
     public double getFuel() {
@@ -233,6 +206,48 @@ public class Tank {
      */
     public void setK(double k) {
         this.k = k;
+    }
+
+    /**
+     * @return the tankVY
+     */
+    public double getTankVY() {
+        return tankVY;
+    }
+
+    /**
+     * @param tankVY the tankVY to set
+     */
+    public void setTankVY(double tankVY) {
+        this.tankVY = tankVY;
+    }
+
+    /**
+     * @return the tankVX
+     */
+    public double getTankVX() {
+        return tankVX;
+    }
+
+    /**
+     * @param tankVX the tankVX to set
+     */
+    public void setTankVX(double tankVX) {
+        this.tankVX = tankVX;
+    }
+
+    /**
+     * @return the speed
+     */
+    public int getSpeed() {
+        return speed;
+    }
+
+    /**
+     * @param speed the speed to set
+     */
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
     
     

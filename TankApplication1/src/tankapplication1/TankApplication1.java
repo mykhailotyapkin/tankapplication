@@ -5,6 +5,8 @@
  */
 package tankapplication1;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JFrame;
 
 
@@ -24,9 +26,9 @@ public class TankApplication1 {
         
         
         Tank model = new Tank();
-        TankView view = new TankView();
-        TankController controller = new TankController();
         
+        TankController controller = new TankController();
+        TankView view = new TankView(model , controller);
         view.setModel(model);
         controller.setModel(model);
         view.setController(controller);
@@ -37,9 +39,29 @@ public class TankApplication1 {
         frame.setVisible(true);
         frame.setSize(1000,1000);
         frame.setTitle("Tank Application");
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addKeyListener(controller);
         frame.addMouseMotionListener(controller);
+        frame.addMouseListener(controller);
+        
+        Timer timer = new Timer();
+        TimerTask task1 = new TimerTask() {
+            @Override
+            public void run() {
+                view.repaint();
+            }
+        };
+        TimerTask task2 = new TimerTask() {
+            @Override
+            public void run() {
+                controller.doGameLogic();
+            }
+        };
+
+        timer.scheduleAtFixedRate(task1, 0, 1000/100);
+        timer.scheduleAtFixedRate(task2, 0, 1000/100);
+        
         frame.add(view);
         
         
