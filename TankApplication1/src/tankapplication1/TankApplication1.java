@@ -10,9 +10,7 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 
 
-enum Command{
-    ROTATION
-}
+
 /**
  *
  * @author Michael
@@ -37,7 +35,7 @@ public class TankApplication1 {
         
         JFrame frame = new JFrame();
         frame.setVisible(true);
-        frame.setSize(1000,1000);
+        frame.setSize(800,600);
         frame.setTitle("Tank Application");
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,6 +54,7 @@ public class TankApplication1 {
             @Override
             public void run() {
                 controller.doGameLogic();
+                
             }
         };
 

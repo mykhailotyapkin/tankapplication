@@ -12,18 +12,22 @@ import java.awt.MouseInfo;
 class outOfFuelException extends Exception{
     
 }
+
+interface Empty  {
+    void empty() throws outOfFuelException; 
+}
 /**
  *
  * @author Michael
  */
-public class Tank {
+public class Tank implements Empty {
     
     private double tankX = 500;
     private double tankY = 250;
     private double tankVY = 0 ;
     private double tankVX = 0;
     private int tankWidth = 42;
-    private int tankHeight = 88;
+    private int tankHeight = 42;
     public static  int speed = 1;
     private double angle = 0;
     private boolean isRotating = false;
@@ -31,7 +35,7 @@ public class Tank {
     private double turretY = tankY + tankHeight/2;
     private int turretRadius = 40;
     private double turretAngle = 0;
-    private double fuel = 10;
+    private double fuel = 50;
     private double k = 0.02;
     /**
      * @return the tankX
@@ -248,6 +252,15 @@ public class Tank {
      */
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    @Override
+    public void empty() throws outOfFuelException {
+        Tank tank = this;
+        if(this.getFuel() <= 0){
+            System.out.println("OutOfFuelException");
+        }
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

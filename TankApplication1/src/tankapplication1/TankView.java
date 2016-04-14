@@ -35,43 +35,33 @@ public class TankView extends JPanel implements ComponentListener {
     
      public TankView(Tank tank, TankController controller) {
         
-            //initial values for tank
-           // Map map = new Map("./map.txt");
-           // Globals.map = ImageIO.read(new File("./media/map.jpg"));
+            
+            Map map = new Map("./map.txt");
+        try {
+            Variables.map = ImageIO.read(new File("./media/maps.jpg"));
+        } catch (IOException ex) {
+            Logger.getLogger(TankView.class.getName()).log(Level.SEVERE, null, ex);
+        }
             this.model = tank;
-            //Globals.tank = tank;
+            
             this.controller = controller;
             this.addMouseListener(controller);
             this.addKeyListener(controller);
             this.addMouseMotionListener(controller);
-            //tank.setX(250);
-            //tank.setY(250);
+            
             this.addComponentListener(this);
-            //mage = createImage(getWidth(), getHeight());
+            
        
     }
     
-    public void drawMap() {
-        try {
-            Variables.map = ImageIO.read(new File("./media/map.jpg"));
-        } catch (IOException ex) {
-            Logger.getLogger(TankView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
     
-    public void drawBullets(){
-        Graphics2D bg = (Graphics2D) image.getGraphics();
-        bg.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        bg.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        bg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        bg.setColor(Color.black);
-
-        for (int i = 0; i < Variables.bullet_list.size(); i++) {
-            Bullets bul = (Bullets) Variables.bullet_list.get(i);
-           // System.out.println(Variables.bullet_list.size());
-            bg.fillOval((int) bul.getBulletX() + (bul.getSize() / 2), (int) bul.getBulletY() + (bul.getSize() / 2), (bul.getSize()), (bul.getSize()));
-        }
+    public void drawComponents(){
+        Graphics2D g2d = (Graphics2D) image.getGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        
     }
 
     
@@ -81,26 +71,54 @@ public class TankView extends JPanel implements ComponentListener {
             System.out.println("Recreated");
             return;
         }
-       
+        Graphics2D g2d = (Graphics2D) g;
+        
+        
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, 1000, 1000);
+        
+        
+        for (int i = 0; i < Variables.items.size(); i++) {
+            Components component = (Components) Variables.items.get(i);
+            
+            g2d.drawImage(component.getImage(), (int) component.getX(), (int) component.getY() ,
+                    (int)component.getWidth() , (int)component.getHeight() ,null);
+        }
+        
+        Collisions.tankHit(g2d);
         int mx = MouseInfo.getPointerInfo().getLocation().x;
         int my = MouseInfo.getPointerInfo().getLocation().y;
         int something = (int)(model.getTankX() + model.getTankWidth()/4);
         int something1 = (int)(model.getTankY() + model.getTankHeight()/2);
         
-        Graphics2D g2d = (Graphics2D) g;
+        
         Image img;
-        g2d.setColor(Color.white);
-        g2d.fillRect(0, 0 , 1000, 1000);
+        //g2d.setColor(Color.black);
+        //g2d.fillRect(0, 0 , 1000, 1000);
+        
+        
+        
+        for (int i = 0; i < Variables.bullet_list.size(); i++) {
+            Bullets bul = (Bullets) Variables.bullet_list.get(i);
+            g2d.setColor(Color.white);
+            g2d.fillOval((int) bul.getBulletX() + (bul.getSize() / 2), (int) bul.getBulletY() + (bul.getSize() / 2), (bul.getSize()), (bul.getSize()));
+        }
+        
         try {
             image = ImageIO.read(new File("./media/tank.png"));
         } catch (IOException ex) {
             Logger.getLogger(TankView.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
         //tank
         g2d.rotate(model.getAngle(),(model.getTankX() +model.getTankWidth()/2),
             (model.getTankY()+model.getTankHeight()/2));
-        g2d.drawImage(image ,(int)model.getTankX(),(int) model.getTankY(),this);
-        drawBullets();
+        g2d.drawImage(image ,(int)model.getTankX(),(int) model.getTankY() , model.getTankWidth(),
+                model.getTankHeight(),this);
+        
+        //drawBullets();
+        //drawComponents();
         /*
         //rectangle
         g2d.setColor(Color.red);

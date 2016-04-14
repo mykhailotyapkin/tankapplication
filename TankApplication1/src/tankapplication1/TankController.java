@@ -17,13 +17,15 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Michael
  */
-public class TankController extends JPanel implements KeyListener ,ActionListener , MouseMotionListener , MouseListener{
+public class TankController extends JPanel implements KeyListener ,ActionListener , MouseMotionListener , MouseListener {
     Tank model = null;
     TankView view = null;
     
@@ -63,60 +65,85 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
         
     }
     
-    private void doRotateLeft()  {   
-        model.setAngle(model.getAngle()-0.15);
-       // Variables.speed -= 0.15;
-        view.repaint();   
+    private void doRotateLeft()  {
+        try {
+            model.empty();
+            model.setAngle(model.getAngle()-0.15);
+            model.setFuel(model.getFuel()-0.3);
+            view.repaint(); 
+        } catch (outOfFuelException ex) {
+            System.out.println(ex);
+            //Logger.getLogger(TankController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          
     }
     
     private void doRotateRigth() {
-        model.setAngle(model.getAngle()+0.15);
-        //Variables.speed -= 0.15;
-        view.repaint();   
+         
+            model.setAngle(model.getAngle()+0.15);
+            
+            view.repaint();
+        
+        
     }
     
-    private boolean rotating = false;
-    Timer timer = new Timer();
     
     @Override
     public void keyTyped(KeyEvent e) {
         
     }
-    
-    public boolean isRotating() {
-        return rotating;
-    }
-
-    /**
-     * @param rotating the rotating to set
-     */
-    public void setRotating(boolean rotating) {
-        this.rotating = rotating;
-    }
 
     @Override
     public void keyPressed(KeyEvent e) {
-         
-       
-        if(e.getKeyChar() == 'a'){
-            timer.cancel();
-            timer = new Timer();
-            setRotating(!isRotating());
-            final TankController controller = this;
-            controller.doRotateLeft();
-        }else if(e.getKeyChar() == 'd'){
-            timer.cancel();
-            timer = new Timer();
-            setRotating(!isRotating());
-            final TankController controller = this;
-            controller.doRotateRigth();
-        }else if(e.getKeyChar() == 'w'){
-            final TankController controller = this;
-            controller.doForward();
-        }else if(e.getKeyChar() == 's'){
-            final TankController controller = this;
-            controller.doBackward();             
+
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                try {
+                    model.empty();
+                    model.setFuel(model.getFuel()-0.05);
+                    doRotateLeft();
+                } catch (outOfFuelException ex) {
+                    System.out.println(ex);
+                    //Logger.getLogger(TankController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case KeyEvent.VK_RIGHT:
+                try {
+                    model.empty();
+                    model.setFuel(model.getFuel()-0.05);
+                    doRotateRigth();
+                } catch (outOfFuelException ex) {
+                    System.out.println(ex);
+                    //Logger.getLogger(TankController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case KeyEvent.VK_UP:
+                try {
+                    model.empty();
+                    doForward();
+                    model.setFuel(model.getFuel()-0.3);
+                } catch (outOfFuelException ex) {
+                    System.out.println(ex);
+                    //Logger.getLogger(TankController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case KeyEvent.VK_DOWN:
+                try {
+                    model.empty();
+                    doBackward();
+                    model.setFuel(model.getFuel()-0.3);
+                } catch (outOfFuelException ex) {
+                    System.out.println(ex);
+                    //Logger.getLogger(TankController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case KeyEvent.VK_SPACE:
+                doFireBullet();
+                break;
+            default:
+                break;
         }
+        
     }
 
     @Override
@@ -146,36 +173,36 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
     }
     
     public void doGameLogic(){
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-
-        model.setTankX(model.getTankX() + model.getTankVX());
-        model.setTankY(model.getTankY() + model.getTankVY());
+        
+        
+            model.setTankX(model.getTankX() + model.getTankVX());
+            model.setTankY(model.getTankY() + model.getTankVY());
 
 
-        double a = (double) model.getTankX();
-        double b = (double) model.getTankY();
-        double r = model.getTankWidth();
-        double r1 = model.getTankHeight();
-        double n = model.getAngle();
-        double t = (n + (Math.PI / 2));
-        double x = a + (r * Math.cos(t));
-        double y = b + (r1 * Math.sin(t));
+            double a = (double) model.getTankX();
+            double b = (double) model.getTankY();
+            double r = model.getTankWidth();
+            double r1 = model.getTankHeight();
+            double n = model.getAngle();
+            double t = (n + (Math.PI / 2));
+            double x = a + (r * Math.cos(t));
+            double y = b + (r1 * Math.sin(t));
 
-        double dx = x;
-        double dy = y;
-        double ox = model.getTankX();
-        double oy = model.getTankY();
-        dx = -dx + ox;
-        dy = -dy + oy;
-        double speedX = dx / Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-        double speedY = dy / Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-        speedX *= Variables.speed;
-        speedY *= Variables.speed;
+            double dx = x;
+            double dy = y;
+            double ox = model.getTankX();
+            double oy = model.getTankY();
+            dx = -dx + ox;
+            dy = -dy + oy;
+            double speedX = dx / Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            double speedY = dy / Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            speedX *= Variables.speed;
+            speedY *= Variables.speed;
 
-        model.setTankVX(speedX);
-        model.setTankVY(speedY);
+            model.setTankVX(speedX);
+            model.setTankVY(speedY);
+
+         
         
         
     }
@@ -216,7 +243,7 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
 
     @Override
     public void mousePressed(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -233,5 +260,6 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     
 }
