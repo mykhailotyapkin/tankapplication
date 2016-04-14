@@ -33,7 +33,7 @@ public class TankView extends JPanel implements ComponentListener {
     Image image ;
     
     
-     public TankView(Tank tank, TankController controller) {
+     public TankView(Tank model, TankController controller) {
         
             
             Map map = new Map("./map.txt");
@@ -42,7 +42,7 @@ public class TankView extends JPanel implements ComponentListener {
         } catch (IOException ex) {
             Logger.getLogger(TankView.class.getName()).log(Level.SEVERE, null, ex);
         }
-            this.model = tank;
+            this.model = model;
             
             this.controller = controller;
             this.addMouseListener(controller);
@@ -55,14 +55,7 @@ public class TankView extends JPanel implements ComponentListener {
     }
     
     
-    public void drawComponents(){
-        Graphics2D g2d = (Graphics2D) image.getGraphics();
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        
-        
-    }
+    
 
     
     public void paint(Graphics g){
@@ -85,7 +78,7 @@ public class TankView extends JPanel implements ComponentListener {
                     (int)component.getWidth() , (int)component.getHeight() ,null);
         }
         
-        Collisions.tankHit(g2d);
+        
         int mx = MouseInfo.getPointerInfo().getLocation().x;
         int my = MouseInfo.getPointerInfo().getLocation().y;
         int something = (int)(model.getTankX() + model.getTankWidth()/4);
@@ -110,6 +103,7 @@ public class TankView extends JPanel implements ComponentListener {
             Logger.getLogger(TankView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        Collisions.checkTank();
         
         //tank
         g2d.rotate(model.getAngle(),(model.getTankX() +model.getTankWidth()/2),

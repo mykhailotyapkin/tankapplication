@@ -54,7 +54,7 @@ public class TankApplication1 {
             @Override
             public void run() {
                 controller.doGameLogic();
-                
+                //Collisions.checkTank(g);
             }
         };
 

@@ -22,21 +22,21 @@ interface Empty  {
  */
 public class Tank implements Empty {
     
-    private double tankX = 500;
-    private double tankY = 250;
-    private double tankVY = 0 ;
-    private double tankVX = 0;
-    private int tankWidth = 42;
-    private int tankHeight = 42;
+    public static double tankX = 500;
+    public static double tankY = 250;
+    public static double tankVY = 0 ;
+    public static double tankVX = 0;
+    public static int tankWidth = 42;
+    public static int tankHeight = 42;
     public static  int speed = 1;
-    private double angle = 0;
-    private boolean isRotating = false;
-    private double turretX = tankX+(tankWidth/4) ;
-    private double turretY = tankY + tankHeight/2;
-    private int turretRadius = 40;
-    private double turretAngle = 0;
-    private double fuel = 50;
-    private double k = 0.02;
+    public static double angle = 0;
+    public static boolean isRotating = false;
+    public static double turretX = tankX+(tankWidth/4) ;
+    public static double turretY = tankY + tankHeight/2;
+    public static int turretRadius = 40;
+    public static double turretAngle = 0;
+    public static double fuel = 50;
+    public static double k = 0.02;
     /**
      * @return the tankX
      */

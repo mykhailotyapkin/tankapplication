@@ -13,31 +13,46 @@ import java.awt.Graphics;
  */
 public class Collisions {
     
-    public static Tank model = new Tank();
-    public static void tankHit(Graphics g){
+    Tank model= null;
+    public static void checkTank(){
+        //Tank model = new Tank();
         for(int k = 0 ; k < Variables.items.size();k++  ){
             Components component = (Components) Variables.items.get(k); 
-            boolean b = checkHit(g , component);
-            if(b ){
-                model.setTankVX(-model.getTankVX());
-                model.setTankVY(-model.getTankVY());
-                model.setSpeed(0);
+            boolean b = checkTankHit(component);
+            if(b){
+                Tank.setTankVX(-Variables.tank.getTankVX());
+                Variables.tank.setTankVY(-Variables.tank.getTankVY());
+                Variables.tank.setSpeed(0);
             }
         }
     }
     
-    public static boolean checkHit(Graphics g , Components component){
-        double tankCenter = model.getTankWidth()/2;
-        double coorX = model.getTankX() - tankCenter;
-        double coorY = model.getTankY() - tankCenter;
-        double tankWidth = model.getTankWidth();
+    public static boolean checkTankHit( Components component){
         
-        if(((coorX + tankWidth) > component.getX()) && (coorX < component.getX() + component.getWidth()) ){
-            if(((coorY + tankWidth) > component.getY()) && (coorY < component.getY() + component.getWidth()) )
-                System.out.println("Hit:" + component);
+        double tankCenter = 21;
+        double coorX = Variables.tank.getTankX() - tankCenter;
+        double coorY = Variables.tank.getTankY() - tankCenter;
+        System.out.println("coorX" + coorX);
+        double tankWidth =Variables.tank.getTankWidth();
+        
+        if(((coorX + tankWidth) >= component.getX()) && (coorX <= component.getX() + component.getWidth()) ){
+            if(((coorY + tankWidth) >= component.getY()) && (coorY <= component.getY() + component.getHeight()) ){
+                //System.out.println((coorX + tankWidth) + " " +  component.getX());
                 return true;
+            }
         }
         return false;
     }
     
+    
+    public Tank getModel() {
+        return model;
+    }
+
+    /**
+     * @param model the model to set
+     */
+    public void setModel(Tank model) {
+        this.model = model;
+    }
 }

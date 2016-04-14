@@ -6,6 +6,7 @@
 package tankapplication1;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -20,6 +21,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+
 
 /**
  *
@@ -234,7 +236,47 @@ public class TankController extends JPanel implements KeyListener ,ActionListene
         
         new Sounds("./media/fire_sound.wav").start();
     }
-
+    
+     
+         
+   public void Collisions(){
+       for(int k = 0 ; k < Variables.items.size();k++  ){
+            Components component = (Components) Variables.items.get(k);
+            
+            double tankCenter = model.getTankWidth()/2;
+            double coorX = model.getTankX() - tankCenter;
+            double coorY = model.getTankY() - tankCenter;
+            
+            double tankWidth = model.getTankWidth();
+        
+            /*if(((coorX + tankWidth) >= component.getX()) && (coorX <= component.getX() + component.getWidth()) ){
+                if(((coorY + tankWidth) >= component.getY()) && (coorY <= component.getY() + component.getHeight()) ){
+                    model.setTankVX(-model.getTankVX());
+                    model.setTankVY(-model.getTankVY());
+                    model.setSpeed(0);
+                }      
+            }*/
+            if((coorX + tankWidth) >= component.getX()){
+                model.setTankVX(-model.getTankVX());
+                model.setTankVY(-model.getTankVY());
+                model.setSpeed(0);
+            }else if(coorX <= component.getX() + component.getWidth()){
+                model.setTankVX(-model.getTankVX());
+                model.setTankVY(-model.getTankVY());
+                model.setSpeed(0);
+            }
+       }
+       
+        
+   }      
+         
+        
+        
+        
+        
+        
+      
+     
     @Override
     public void mouseClicked(MouseEvent e) {
         doFireBullet();
