@@ -5,6 +5,7 @@
  */
 package tankapplication1;
 
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -32,7 +33,6 @@ public class TankApplication1 {
         view.setController(controller);
         controller.setView(view);
         
-        
         JFrame frame = new JFrame();
         frame.setVisible(true);
         frame.setSize(800,600);
@@ -43,6 +43,7 @@ public class TankApplication1 {
         frame.addMouseMotionListener(controller);
         frame.addMouseListener(controller);
         
+
         Timer timer = new Timer();
         TimerTask task1 = new TimerTask() {
             @Override
@@ -53,17 +54,14 @@ public class TankApplication1 {
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
-                controller.doGameLogic();
-                //Collisions.checkTank(g);
+                controller.doSpeed();
             }
         };
-
+        
         timer.scheduleAtFixedRate(task1, 0, 1000/100);
         timer.scheduleAtFixedRate(task2, 0, 1000/100);
         
         frame.add(view);
-        
-        
-    }
-    
+
+    }   
 }

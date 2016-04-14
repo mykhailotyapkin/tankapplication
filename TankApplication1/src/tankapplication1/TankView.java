@@ -26,44 +26,33 @@ import javax.swing.JPanel;
  *
  * @author Michael
  */
-public class TankView extends JPanel implements ComponentListener {
+public class TankView extends JPanel  {
     
     public Tank model = null;
     public TankController controller = null;
     Image image ;
+    Image turretImage;
     
-    
-     public TankView(Tank model, TankController controller) {
-        
-            
-            Map map = new Map("./map.txt");
+     public TankView(Tank model, TankController controller) {   
+        Map map = new Map("./map.txt");
         try {
             Variables.map = ImageIO.read(new File("./media/maps.jpg"));
         } catch (IOException ex) {
             Logger.getLogger(TankView.class.getName()).log(Level.SEVERE, null, ex);
         }
             this.model = model;
-            
             this.controller = controller;
             this.addMouseListener(controller);
             this.addKeyListener(controller);
             this.addMouseMotionListener(controller);
-            
-            this.addComponentListener(this);
-            
-       
     }
     
-    
-    
-
-    
     public void paint(Graphics g){
-        if (image == null) {
+        /*if (image == null) {
             image = createImage(getWidth(), getHeight());
             System.out.println("Recreated");
             return;
-        }
+        }*/
         Graphics2D g2d = (Graphics2D) g;
         
         
@@ -78,64 +67,43 @@ public class TankView extends JPanel implements ComponentListener {
                     (int)component.getWidth() , (int)component.getHeight() ,null);
         }
         
-        
-        int mx = MouseInfo.getPointerInfo().getLocation().x;
-        int my = MouseInfo.getPointerInfo().getLocation().y;
         int something = (int)(model.getTankX() + model.getTankWidth()/4);
         int something1 = (int)(model.getTankY() + model.getTankHeight()/2);
         
-        
-        Image img;
-        //g2d.setColor(Color.black);
-        //g2d.fillRect(0, 0 , 1000, 1000);
-        
-        
-        
-        for (int i = 0; i < Variables.bullet_list.size(); i++) {
-            Bullets bul = (Bullets) Variables.bullet_list.get(i);
+        for (int i = 0; i < model.bullet_list.size(); i++) {
+            Bullets bul = (Bullets) model.bullet_list.get(i);
             g2d.setColor(Color.white);
             g2d.fillOval((int) bul.getBulletX() + (bul.getSize() / 2), (int) bul.getBulletY() + (bul.getSize() / 2), (bul.getSize()), (bul.getSize()));
         }
         
+        
+        Collisions.checkTank();
+        //tank
         try {
-            image = ImageIO.read(new File("./media/tank.png"));
+            image = ImageIO.read(new File("./media/tank-edit.png"));
         } catch (IOException ex) {
             Logger.getLogger(TankView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Collisions.checkTank();
         
-        //tank
         g2d.rotate(model.getAngle(),(model.getTankX() +model.getTankWidth()/2),
             (model.getTankY()+model.getTankHeight()/2));
         g2d.drawImage(image ,(int)model.getTankX(),(int) model.getTankY() , model.getTankWidth(),
                 model.getTankHeight(),this);
         
-        //drawBullets();
-        //drawComponents();
-        /*
-        //rectangle
-        g2d.setColor(Color.red);
-        g2d.rotate(model.getAngle(),(model.getTankX() +model.getTankWidth()/2),
-            (model.getTankY()+model.getTankHeight()/2));
-        g2d.fillRect((int)model.getTankX(),(int) model.getTankY(),
-                model.getTankWidth(), model.getTankHeight());
+        
         //turret
-        g2d.setColor(Color.CYAN);
-        
-        g2d.rotate(Math.atan2(mx-model.getTankX() , my-model.getTankY())*(-1),
-                (int)something+model.getTurretRadius()/2 , (int)something1);
-        
-        g2d.fillRect((int)something+model.getTurretRadius()-30,
-                (int)something1, model.getTurretRadius()-20,
-                model.getTurretRadius()+60);
-        
-        //circle
-        g2d.setColor(Color.yellow);
-        g2d.rotate(Math.atan2(mx-model.getTankX() , my-model.getTankY())*(-1),
-                (int)something+model.getTurretRadius()/2 , (int)something1);
-        g2d.fillOval((int)model.getTankX(), (int)model.getTankY(), 80, 80);
-        */
+        try {
+            turretImage = ImageIO.read(new File("./media/turret.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(TankView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        g2d.rotate(model.getTurretAngle(),
+                model.getTankX()+30 ,model.getTankY() + 80 );
+        g2d.drawImage(turretImage ,(int)something+model.getTurretRadius()-46,
+                (int)something1 - model.getTurretRadius()-12, model.getTurretRadius(),
+                model.getTurretRadius()+60 , this); 
     }
     
     public Tank getModel() {
@@ -162,25 +130,4 @@ public class TankView extends JPanel implements ComponentListener {
     public void setController(TankController controller) {
         this.controller = controller;
     }
-
-    @Override
-    public void componentResized(ComponentEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void componentMoved(ComponentEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void componentShown(ComponentEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void componentHidden(ComponentEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

@@ -5,7 +5,13 @@
  */
 package tankapplication1;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.MouseInfo;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.io.File;
+import java.util.ArrayList;
 
 
 
@@ -13,21 +19,30 @@ class outOfFuelException extends Exception{
     
 }
 
-interface Empty  {
+interface emptyFuel  {
     void empty() throws outOfFuelException; 
 }
+
+class OutOfBulletException extends Exception{
+    
+}
+
+interface emptyAmmo{
+    void outOfAmmo() throws OutOfBulletException;
+}
+
 /**
  *
  * @author Michael
  */
-public class Tank implements Empty {
+public class Tank implements emptyFuel , emptyAmmo {
     
     public static double tankX = 500;
     public static double tankY = 250;
     public static double tankVY = 0 ;
     public static double tankVX = 0;
-    public static int tankWidth = 42;
-    public static int tankHeight = 42;
+    public static int tankWidth = 55;
+    public static int tankHeight = 110;
     public static  int speed = 1;
     public static double angle = 0;
     public static boolean isRotating = false;
@@ -37,6 +52,7 @@ public class Tank implements Empty {
     public static double turretAngle = 0;
     public static double fuel = 50;
     public static double k = 0.02;
+    static ArrayList bullet_list = new ArrayList();
     /**
      * @return the tankX
      */
@@ -256,12 +272,19 @@ public class Tank implements Empty {
 
     @Override
     public void empty() throws outOfFuelException {
-        Tank tank = this;
         if(this.getFuel() <= 0){
-            System.out.println("OutOfFuelException");
+            setTankVX(0);
+            setTankVY(0);
+            setSpeed(0);
+            throw new outOfFuelException();
         }
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+    @Override
+    public void outOfAmmo() throws OutOfBulletException {
+        if(this.bullet_list.size() >= Variables.maxBulletAmmount){
+            throw new OutOfBulletException();
+        }
+        
+    }    
 }

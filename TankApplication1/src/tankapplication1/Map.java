@@ -44,21 +44,6 @@ public class Map {
                         component.setDestroyable(false);
                         Variables.items.add(component);
                         x++;
-                        
-                    }
-                    else if(c == 'B')
-                    {
-                        
-                        x++;
-                        Components component = new Components();
-                        component.setImage(ImageIO.read(new File("./media/tank.gif")));
-                        component.setWidth(10);
-                        component.setHeight(10);
-                        component.setX(x*100);
-                        component.setY(y*100);
-                        component.setDestroyable(true);
-                        Variables.items.add(component);
-                        x++;
                     } else {
                         x++;
                     }

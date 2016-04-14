@@ -14,8 +14,8 @@ public class Bullets {
     private int size = 8;
     private int bulletX = 0;
     private int bulletY = 0;
-    private double bulletVX = 0; 
-    private double bulletVY = 0;
+    private double bulletVX = 1; 
+    private double bulletVY = 1;
 
     /**
      * @return the size
